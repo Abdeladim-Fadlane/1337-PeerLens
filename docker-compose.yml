@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    volumes:
+      - ./Database:/var/lib/postgresql/data
+    env_file:
+      - .env
+    restart: always
+
+  express:
+    build: Express
+    container_name: express
+    env_file:
+      - .env
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./Express/.:/app
+    restart: always
+
+  react:
+    build: React
+    container_name: react
+    volumes:
+      - ./React/.:/app
+    env_file:
+      - .env
+    restart: always
+
+  webserver:
+    build: WebServer
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./WebServer/.:/server
+    ports:
+      - "443:443"
+    restart: always
+
+  auth:
+    build: auth
+    image: djangoo
+    container_name: auth
+    volumes:
+      - ./auth/.:/code
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    restart: always
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+      

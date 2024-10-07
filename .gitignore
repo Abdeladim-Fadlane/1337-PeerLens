@@ -1,0 +1,8 @@
+Database
+Express/node_modules
+Express/npm-debug.log
+
+React/node_modules
+React/npm-debug.log
+
+# # .env
