@@ -1,12 +1,12 @@
 services:
-  postgres:
-    image: postgres
-    container_name: postgres
-    volumes:
-      - ./Database:/var/lib/postgresql/data
-    env_file:
-      - .env
-    restart: always
+  # postgres:
+  #   image: postgres
+  #   container_name: postgres
+  #   volumes:
+  #     - ./Database:/var/lib/postgresql/data
+  #   env_file:
+  #     - .env
+  #   restart: always
 
   express:
     build: Express
@@ -38,20 +38,20 @@ services:
       - "443:443"
     restart: always
 
-  auth:
-    build: auth
-    image: djangoo
-    container_name: auth
-    volumes:
-      - ./auth/.:/code
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-    restart: always
+  # auth:
+  #   build: auth
+  #   image: djangoo
+  #   container_name: auth
+  #   volumes:
+  #     - ./auth/.:/code
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - postgres
+  #   restart: always
 
-  redis:
-    image: redis
-    container_name: redis
-    restart: always
+  # redis:
+  #   image: redis
+  #   container_name: redis
+  #   restart: always
       
