@@ -47,7 +47,7 @@ function User() {
                             }}
                             className="bg-gray-900 h-3 text-gray-400 border-none focus:outline-none"
                         />
-                        <IoNotificationsCircleSharp size={40} className='text-gray-400 mr-4'/>
+                        <IoNotificationsCircleSharp size={40} className='text-purple-300 mr-4 hover:text-purple-400 cursor-pointer'/>
                         <h2 className="pr-10 text-xl font-semibold text-gray-400 ">{data?.login}</h2>
                         <img
                             className="w-10 h-10 rounded-full  border-gray-600 object-cover"
@@ -86,7 +86,7 @@ const NavLink = ({ href, icon, ariaLabel }) => (
     <a 
         href={href} 
         aria-label={ariaLabel} 
-        className="py-8 text-gray-400 rounded transition-colors duration-300 flex items-center justify-center"
+        className="py-8 text-gray-400 rounded transition-colors duration-300 flex items-center justify-center  hover:text-purple-400"
     >
         {React.cloneElement(icon, { size: 30 })}
     </a>
@@ -105,11 +105,11 @@ const ProfileSection = ({ data }) => (
 const ProjectsSection = ({ projects }) => (
     <section id="projects" className="my-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {projects.slice(0, 6).map(project => (
+            {projects.slice(0, 41).map(project => (
                 <ProjectCard key={project.project.id} project={project} />
-                
             ))}
         </div>
+
     </section>
 );
 
@@ -117,15 +117,11 @@ const ProjectCard = ({ project }) => (
     <div className="bg-gray-700 shadow-md rounded-lg p-4 transition-transform transform hover:scale-105">
         <div className="flex items-center mb-2">
             <ImBookmarks className="text-gray-500 mr-2" />
-            <h2 className="text-xl font-semibold text-gray-300">{project.project.name}</h2>
+            <h2 className="text-xl font-semibold text-purple-300">{project.project.name}</h2>
         </div>
-        <p className="text-gray-300 mb-2"> lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <div className="flex justify-center">
-            <button className="bg-gray-400 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-500 transition flex items-center">
-                <AiFillGithub className="mr-2" size={20} /> View Code
-            </button>
-        </div>
+            <p className="text-gray-300">Score: {project.final_mark}</p>
+            <p className="text-gray-300">Status: {project.status}</p>
+            <p className="text-gray-300">Marked At: {project.marked_at}</p>
     </div>
 );
 
