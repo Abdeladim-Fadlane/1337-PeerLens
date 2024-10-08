@@ -1,6 +1,6 @@
 import React from "react";
 import Type from "./Type";
-
+import { Si42 } from "react-icons/si";
 const AboutSection = ({data}) => (
     <div className="flex flex-wrap">
         <div className="w-full md:w-2/3 p-4">

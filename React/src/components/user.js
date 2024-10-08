@@ -2,7 +2,20 @@ import React, { useEffect } from 'react';
 import { IoHomeSharp } from "react-icons/io5";
 import { FaProjectDiagram, FaUser } from "react-icons/fa";
 import { GiSkills } from "react-icons/gi";
+import { IoShareSocialOutline } from "react-icons/io5";
+import { CiShoppingTag } from "react-icons/ci";
+import { FaRocketchat } from "react-icons/fa6";
+import { IoLogoBuffer } from "react-icons/io";
+
 import { MdContactEmergency } from "react-icons/md";
+import { IoNotificationsCircleSharp } from "react-icons/io5";
+import { TfiHome } from "react-icons/tfi";
+import { HiOutlineHome } from "react-icons/hi";
+import { LiaProjectDiagramSolid } from "react-icons/lia";
+import { RxAvatar } from "react-icons/rx";
+import { AiOutlineRadarChart } from "react-icons/ai";
+import { TbChartBubble } from "react-icons/tb";
+
 import { BiLogOutCircle } from "react-icons/bi";
 import { ImBookmarks } from "react-icons/im";
 import { Si42 } from "react-icons/si";
@@ -22,40 +35,38 @@ function User() {
     }, []);
 
     return (
-        <div id="Home" className="min-h-screen flex flex-col bg-gray-900">
-            {/* Top Navigation */}
-            <nav className="ml-16 shadow-md bg-gray-800 text-gray">
-                <div className="flex items-center justify-between px-4 py-2">
-                    <CiSearch size={50} />
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        style={{
-                            border: 'none',
-                        }}
-                        className="bg-gray-800 text-gray-400 border-none focus:outline-none"
-                    />
-
-                    <h2 className="pr-10 text-xl font-semibold text-gray-400 ml-4">{data?.login}</h2>
-                    <img
-                        className="w-12 h-12 rounded-full border-2 border-gray-600 object-cover"
-                        src={data?.image?.link}
-                        alt={data?.login}
-                    />
-                </div>
-            </nav>
-
-            {/* main content */}
+        <div id="Home" className="min-h-screen flex flex-col bg-black">
+                <nav className="ml-16  h-16 shadow-md bg-gray-900 text-gray">
+                    <div className="flex items-center justify-between px-4 py-2">
+                        <CiSearch size={40} className='text-gray-400 ml-4'/>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            style={{
+                                border: 'none',
+                            }}
+                            className="bg-gray-900 h-3 text-gray-400 border-none focus:outline-none"
+                        />
+                        <IoNotificationsCircleSharp size={40} className='text-gray-400 mr-4'/>
+                        <h2 className="pr-10 text-xl font-semibold text-gray-400 ">{data?.login}</h2>
+                        <img
+                            className="w-10 h-10 rounded-full  border-gray-600 object-cover"
+                            src={data?.image?.link}
+                            alt={data?.login}
+                        />
+                    </div>
+                </nav>
             <div className="flex">
-                {/* Vertical Navigation on the Left */}
-                <nav className="fixed top-0 left-0 h-full w-20 shadow-md bg-gray-800 text-white flex flex-col justify-between">
-                <div className="flex m-10 flex-col items-center ">
-                     <NavLink  href="#Home" icon={<IoHomeSharp />} /> </div>
-                    <div className="flex flex-col items-center space-y-20">
-                        <NavLink href="#Profile" icon={<FaUser />} />
-                        <NavLink href="#projects" icon={<FaProjectDiagram />} />
-                        <NavLink href="#skills" icon={<GiSkills />} />
-                        <NavLink href="#contact" icon={<MdContactEmergency />} />
+                <nav className="fixed top-0 left-0 h-full w-20 shadow-md bg-gray-800 flex flex-col justify-between">
+                    <div className="flex  flex-col h-8 justify-between items-center ">
+                        <NavLink  href="#Home" icon={<Si42 />} /> 
+                        <NavLink href="#Profile" icon={<RxAvatar />} />
+                        <NavLink href="#projects" icon={<LiaProjectDiagramSolid />} />
+                        <NavLink href="#skills" icon={<TbChartBubble />} />
+                        <NavLink href="#contact" icon={<IoShareSocialOutline />} />
+                        {/* <NavLink href="#contact" icon={<FaRocketchat />} />
+                        <NavLink href="#contact" icon={<CiShoppingTag />} /> */}
+
                     </div>
                     <NavLink href="/" icon={<BiLogOutCircle />} ariaLabel="Logout" />
                 </nav>
@@ -75,9 +86,9 @@ const NavLink = ({ href, icon, ariaLabel }) => (
     <a 
         href={href} 
         aria-label={ariaLabel} 
-        className="py-2 text-gray-400 hover:bg-gray-700 rounded transition-colors duration-300 flex items-center justify-center"
+        className="py-8 text-gray-400 rounded transition-colors duration-300 flex items-center justify-center"
     >
-        {React.cloneElement(icon, { size: 40 })}
+        {React.cloneElement(icon, { size: 30 })}
     </a>
 );
 

@@ -10,7 +10,7 @@ import Google from './components/google';
 
 function App() {
   return (
-      <Router>
+      <Router >
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
