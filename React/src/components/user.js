@@ -33,8 +33,11 @@ import About from './About';
 function User() {
     const data = JSON.parse(localStorage.getItem('Data'));
     console.log('Data:', data);
-
+    
     useEffect(() => {
+        if (!data) {
+            return <h1>Loading...</h1>;
+        }
         document.body.classList.add('bg-black', 'text-white');
     }, []);
 
@@ -72,7 +75,7 @@ function User() {
                     </div>
                     <NavLink href="/" icon={<BiLogOutCircle  className='hover:text-red-600'/>} ariaLabel="Logout" />
                 </nav>
-                <div className="ml-20 flex-1 p-8 overflow-y-auto">
+                <div className="ml-20 flex-1 p-2 overflow-y-auto">
                     <ProfileSection data={data} />
                     <ProjectsSection projects={data?.projects_users || []} />
                     <SkillsSection skills={data?.cursus_users[1]?.skills || []} />
