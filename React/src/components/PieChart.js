@@ -20,7 +20,7 @@ const BarChart = ({ skills }) => {
                 label: 'Skill Levels',
                 data: skills.map(skill => skill.level),
                 backgroundColor: skills.map(() => `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.6)`),
-                borderColor: skills.map(() => `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 1)`),
+                // borderColor: skills.map(() => `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 1)`),
                 borderWidth: 1,
             },
         ],
