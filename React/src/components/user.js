@@ -100,7 +100,7 @@ const NavLink = ({ href, icon, ariaLabel }) => (
 
 const ProfileSection = ({ data }) => (
     <section id="Profile" className=" ">
-        <div className="bg-gray-700 rounded-lg p-4 flex justify-center items-center">
+        <div className="bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/5719efd0-02ee-4e51-8ecf-47a50313be1e/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_0.jpg')]  bg-cover bg-center rounded-lg p-4 flex justify-center items-center ">
             <About data={data} />
         </div>
     </section>
@@ -109,8 +109,8 @@ const ProfileSection = ({ data }) => (
 
 const ProjectsSection = ({ projects }) => (
     <section id="projects" className="my-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {projects.slice(0, 41).map(project => (
+        <div className="bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/5719efd0-02ee-4e51-8ecf-47a50313be1e/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_1.jpg')] bg-cover bg-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {projects.slice(0,6).map(project => (
                 <ProjectCard key={project.project.id} project={project} />
             ))}
         </div>
@@ -132,8 +132,8 @@ const ProjectCard = ({ project }) => (
 
 const SkillsSection = ({ skills }) => (
     <section id="skills" className="my-8">
-        <div className="bg-gray-700 shadow-md rounded-lg p-4">
-            <h1 className="text-3xl font-bold text-gray-300 text-center mb-4">SKILLS</h1>
+        <div className="bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/dece49e1-263f-4142-a36c-e8b85028dfe8/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_3.jpg')] bg-cover  shadow-md rounded-lg p-4">
+            <h1 className="text-3xl font-bold text-gray-100 text-center mb-4">SKILLS</h1>
         <PieChart skills={skills} />
         </div>
     </section>
@@ -143,7 +143,7 @@ const SkillsSection = ({ skills }) => (
 
 const ContactSection = ({ data }) => (
     <section id="contact" className="my-8">
-        <div className="bg-gray-700 shadow-md rounded-lg p-4">
+        <div className="bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/dece49e1-263f-4142-a36c-e8b85028dfe8/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_1.jpg')] bg-cover bg-center shadow-md rounded-lg p-4">
         <h1 className="text-gray-400 text-center">
             Feel free to <span className="text-purple-400 font-semibold">connect</span> with me
         </h1>
