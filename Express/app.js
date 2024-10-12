@@ -73,12 +73,31 @@ app.get('/api/user', async (req, res) => {
       }
     });
     res.json(response.data);
+    console.log("---------------1--------------")
   } catch (error) {
     console.error('Failed to fetch users data');
     res.status(500).send('Internal Server Error');
   }
 });
 
+app.get('/api/cursus_users', async (req, res) => {
+  console.log("---------------1--------------,",accessToken)
+  try {
+    const response = await axios.get('https://api.intra.42.fr/v2/campus/:21/users/', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    console.log(accessToken)
+    res.json(response.data);
+
+    res.status(200).send('OK');
+  } catch (error) {
+    console.error('Failed to fetch users data:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
 app.get('/api/users', async (req, res) => {
   try {
     const query = req.query;
@@ -94,6 +113,7 @@ app.get('/api/users', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 app.post('/auth/google', async (req, res) => {
   const { id_token } = req.body;

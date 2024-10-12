@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import './promo.css';
 import brand from '../brand.svg';
 const baseUrl = 'https://localhost/api/users/'
-const Promo = () => {
+const Promo = (promo) => {
+  console.log(promo)
   const [usersData, setusersData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -67,7 +68,13 @@ const Promo = () => {
       
     }
   }
-
+  if(promo === true)
+    {
+      return (
+        <>
+        </>
+      )
+  }
   return (
     <>
       {loading ? ( 

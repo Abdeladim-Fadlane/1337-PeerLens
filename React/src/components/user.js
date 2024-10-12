@@ -11,9 +11,10 @@ import { NavLink, ProfileSection, ProjectsSection, SkillsSection } from './Secti
 import ContactSection from './Contact';
 
 import { FaRankingStar } from "react-icons/fa6";
-
+import Promo  from './promo';
 function User() {
     const [userData, setData] = useState(null);
+    const [promo,setPromo] = useState(false)
     const data = JSON.parse(localStorage.getItem('Data'));
     console.log(data);
     useEffect(() => {
@@ -21,8 +22,19 @@ function User() {
             setData(data);
         }
         document.body.classList.add('bg-black', 'text-white');
+        
     }, []);
 
+    const hundleOnClikc =( () =>
+        {
+            const mainClass = document.getElementsByClassName('main-class')
+            for (let i = 0; i < mainClass.length; i++) {
+                mainClass[i].style.display = 'none';
+            }
+            console.log("clicked")
+            setPromo(true)
+        }
+    );
     return (
         <>
             {!userData ? (<h1>Loading...</h1>) : (
@@ -53,15 +65,26 @@ function User() {
                                 <NavLink href="#projects" icon={<FaSitemap />} />
                                 <NavLink href="#skills" icon={<TbChartBubble />} />
                                 <NavLink href="#contact" icon={<IoShareSocialOutline />} />
-                                <NavLink href="#achievement" icon={<FaRankingStar />} />
+                                <a 
+                                    onClick={hundleOnClikc}
+                                    href="#achi"
+                                    className=' py-8 text-gray-400 rounded transition-colors duration-300 flex items-center justify-center hover:text-purple-400'
+                                >
+                                    <FaRankingStar size={30}/>
+                                </a>
                             </div>
                             <NavLink href="/" icon={<BiLogOutCircle className='hover:text-red-600' />} ariaLabel="Logout" />
                         </nav>
                         <div className="ml-20 flex-1 p-2 overflow-y-auto">
-                            <ProfileSection data={data} />
-                            <ProjectsSection projects={data?.projects_users || []} />
-                            <SkillsSection skills={data?.cursus_users[1]?.skills || []} achievements={data.achievements} />
-                            <ContactSection data={data} />
+                            <div className='main-class' >
+                                <ProfileSection data={data} />
+                                <ProjectsSection projects={data?.projects_users || []} />
+                                <SkillsSection skills={data?.cursus_users[1]?.skills || []} achievements={data.achievements} />
+                                <ContactSection data={data} />
+                            </div>
+                            <div className='Promo-class'>
+                                < Promo state={promo}/>
+                            </div>
                         </div>
                     </div>
                     <Footer />
