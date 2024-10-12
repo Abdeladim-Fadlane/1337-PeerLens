@@ -45,8 +45,7 @@ const AboutSection = ({data}) => (
                 <div className="relative w-full bg-gray-600 rounded-md h-4 font-bold">
                     <div
                         className="bg-purple-700 h-4 rounded-md"
-                        style={{ width: `${(data.cursus_users[1].level % 1) * 100}%` }}
-                    />
+                        style={{ width: `${(data.cursus_users[1].level % 1) * 100}%` }}/>
                     <span className="absolute inset-0 flex items-center justify-center text-white text-xs">
                     Level {Math.floor(data.cursus_users[1].level)} - {Math.round((data.cursus_users[1].level % 1) * 100)}%
                     </span>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import './promo.css';
+// import './promo.css';
 import brand from '../brand.svg';
 const baseUrl = 'https://localhost/api/users/'
-const Promo = (promo) => {
-  console.log(promo)
+const Promo = ({status}) => {
+  
   const [usersData, setusersData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,70 +68,80 @@ const Promo = (promo) => {
       
     }
   }
-  if(promo === true)
-    {
-      return (
-        <>
-        </>
-      )
-  }
+  if (status === false)
+    return null;
   return (
-    <>
-      {loading ? ( 
-          <div className="nav">
-              <img src={brand} className='navImg' alt="brand" />
-              <div className="promos">
-                <select id="colors"  value="Promo" onChange={handleClick} disabled={truck}>
-                  <option value="promo">Promo</option>
-                  <option value="orange">Orange</option>
-                  <option value="black">Black</option>
-                  <option value="white">White</option>
-                  <option value="green">Green</option>
-                  <option value="blue">Blue</option>
-                </select>
-              </div>
-          </div>
-          ) :( 
-              <div className="nav">
-                  <h1 className='head'> 1337 <strong>Leet</strong></h1>  
-              </div>
-          )}
+<>
+  {loading ? ( 
+    <div className="flex flex-col items-center bg-gray-800 p-4">
+      <div className="w-full max-w-xs">
+        <select 
+          id="colors" 
+          value="Promo" 
+          onChange={handleClick} 
+          disabled={truck} 
+          className="block w-full p-2 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring focus:ring-purple-500 transition duration-300"
+        >
+          <option value="promo">Promos</option>
+          <option value="orange">Orange</option>
+          <option value="black">Black</option>
+          <option value="white">White</option>
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+        </select>
+      </div>
+    </div>
+  ) : ( 
+    <div className="flex justify-center bg-gray-800 p-4">
+      <h1 className="text-3xl font-bold text-white">1337 <strong>Leet</strong></h1>  
+    </div>
+  )}
 
-      <div className="users-container">
-        {loaded ? (
-          usersData.length > 0 ? 
-          (
-            usersData.map((user, index) => (
-              <div className="card" key={user.id}>
-                <a href={`https://profile.intra.42.fr/users/${user.user.login}`} className="image-link">
-                  <img src={user.user.image.link} alt={user.user.displayname} />
-                </a>
-                <div className="card-content">
-                  <p className="card-title">{user.user.displayname}</p>
-                  <p className="login">{user.user.login}</p>
-                  <p className="level">{user.level.toFixed(2)}</p>
-                </div>
-                <div className="card-index">
-                  {index + 1}
-                </div>
-              </div>
-            ))
-          ) : (<></>)
-        ) : (
-          Array.from({ length: 10 }, (_, i) => (
-            <div key={i} className="skeleton">
-              <div className="skeleton-img"></div>
-              <div className="skeleton-text">
-                <div className="skeleton-title"></div>
-                <div className="skeleton-login"></div>
-                <div className="skeleton-level"></div>
+  <div className="flex flex-col justify-center items-center px-10 bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/5719efd0-02ee-4e51-8ecf-47a50313be1e/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_0.jpg')]">
+    {loaded ? (
+      usersData.length > 0 ? 
+      (
+        usersData.map((user, index) => (
+          <div className="bg-opacity-30 flex  m-1 py-2 px-5 w-full  bg-gray-900 rounded-lg overflow-hidden shadow-sm transition-transform transform hover:scale-105 " key={user.id}>
+            
+            <a href={`https://profile.intra.42.fr/users/${user.user.login}`} target="_blank" className="">
+              <img src={user.user.image.link} alt={user.user.displayname} className="w-20 m-4 items-center justify-center h-20 object-cover rounded-full" />
+            </a>
+
+            <div className="p-2 m-6 flex-1 items-center justify-center">
+              <p className="text-sm font-semibold text-white">{user.user.displayname}</p>
+              <p className="text-xs text-gray-400">{user.user.login}</p>
+              <div className=" relative w-full bg-gray-700 rounded-md h-4 mt-1">
+                <div 
+                  className="bg-purple-600 h-4 rounded-md" 
+                  style={{ width: `${(user.level % 1) * 100}%` }}
+                />
+                <span className="absolute inset-0 flex items-center justify-center text-white text-xs">
+                  Level {Math.floor(user.level)} - {Math.round((user.level % 1) * 100)}%
+                </span>
               </div>
             </div>
-          ))
-        )}
-      </div>
-    </>
+            <div className="absolute top-2 right-2 bg-gray-800 text-white text-lg font-bold rounded-full w-8 h-8 flex items-center justify-center">
+              {index + 1}
+            </div>
+          </div>
+        ))
+      ) : (<></>)
+    ) : (
+      Array.from({ length: 30 }, (_, i) => (
+        <div key={i} className=" flex bg-gray-800 p-8 my-2 rounded-lg shadow-sm animate-pulse w-full">
+          <div className="w-20 h-20 bg-gray-700 rounded-full mr-4"></div>
+          <div className="flex-1">
+            <div className="h-3 w-20 bg-gray-600 rounded mb-1 my-2"></div>
+            <div className="h-2 w-16 bg-gray-600 rounded mb-2"></div>
+            <div className="h-5 bg-gray-700 rounded-full mb-4"></div>
+          </div>
+        </div>
+      ))
+    )}
+  </div>
+</>
   );
-};
+}
 
 export default Promo;

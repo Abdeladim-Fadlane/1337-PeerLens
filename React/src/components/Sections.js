@@ -4,7 +4,7 @@ import PieChart from './PieChart';
 
 import About from './About';
 
-export const NavLink = ({ href, icon, ariaLabel }) => (
+export const NavLink = ({ href, icon, ariaLabel ,status}) => (
     <a 
         href={href} 
         aria-label={ariaLabel} 
