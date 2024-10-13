@@ -45,7 +45,6 @@ function User() {
             {React.cloneElement(icon, { size: 30 })}
         </a>
     );
-
     return (
         <>
             {!data ? (<h1>Loading...</h1>) : (

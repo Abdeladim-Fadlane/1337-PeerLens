@@ -36,6 +36,7 @@ const Promo = ({status}) => {
       let page = 1;
       let hasMoreData = true;
       let beginAt = '2022-10-05T06:00:00.000Z';
+      
       if (color === 'black') {
         beginAt = '2023-10-30T08:37:00.000Z';
       }
@@ -50,8 +51,9 @@ const Promo = ({status}) => {
       }
 
       while (hasMoreData) {
-        const response = await fetch(`${baseUrl}?filter[campus_id]=21&filter[begin_at]=${beginAt}&page[size]=100&page[number]=${page}&sort=-level`);
+        const response = await fetch(`${baseUrl}?filter[campus_id]=21&filter[begin_at]=${beginAt}&page[size]=30&page[number]=${page}&sort=-level`);
         const data = await response.json();
+        console.log(data);
         if (data.length === 0)
         {
           hasMoreData = false;
@@ -72,7 +74,7 @@ const Promo = ({status}) => {
     return null;
   return (
 <>
-    {/* {loading ? ( 
+    {loading ? ( 
       <div className="flex flex-col items-center bg-gray-800 p-4">
         <div className="w-full max-w-xs">
           <select 
@@ -95,7 +97,7 @@ const Promo = ({status}) => {
       <div className="flex justify-center bg-gray-800 p-4">
         <h1 className="text-3xl font-bold text-white">1337 <strong>Leet</strong></h1>  
       </div>
-    )} */}
+    )}
 
   <div className="flex flex-col bg-cover bg-no-repeat justify-center items-center px-10 bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/5719efd0-02ee-4e51-8ecf-47a50313be1e/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_0.jpg')]">
   <div className="overflow-y-scroll max-h-[100vh] w-full hide-scrollbar">
