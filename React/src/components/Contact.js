@@ -4,7 +4,7 @@ import { FaLinkedinIn, FaEnvelope } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 
 const ContactSection = ({ data }) => (
-    <section id="contact" className="my-8">
+    <section id="contact" className="mb-20 h-full ">
         <div className="bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/dece49e1-263f-4142-a36c-e8b85028dfe8/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_1.jpg')] bg-cover bg-center shadow-md rounded-lg p-4">
         <h1 className="text-gray-400 text-center">
             Feel free to <span className="text-purple-400 font-semibold">connect</span> with me

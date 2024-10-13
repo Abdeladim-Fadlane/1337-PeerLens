@@ -7,20 +7,20 @@ import { MdOutlineEmail } from "react-icons/md";
 // import { Si42 } from "react-icons/si";
 
 const AboutSection = ({data}) => (
-    <div className="flex flex-col md:flex-row w-full ">
+    <div className="flex flex-col md:flex-row w-full text-cyan-200">
 
         <div className="flex flex-col w-full  ">
 
             <div className="p-1 m-2 flex flex-col md:flex-row-reverse  bg-opacity-70 justify-center text-center bg-gray-800 rounded-lg"> 
-                <div className="flex-col w-full inline-flex">
+                <div className="flex-col w-full inline-flex text-white">
                     <span className="text-purple-600 font-bold font-mono">Cursus </span> 42Cursus 
                 </div>
 
-                <div className="flex w-full flex-col">
+                <div className="flex w-full flex-col text-white">
                     <span className="text-purple-600 font-bold font-mono"> Grade </span>{data.cursus_users[1].grade}
                 </div> 
 
-                <div className="flex w-full flex-col">
+                <div className="flex w-full flex-col text-white ">
                     <span className="text-purple-600 font-bold font-mono">Username </span>{data.login}
                 </div> 
             </div>
@@ -29,15 +29,15 @@ const AboutSection = ({data}) => (
             <div className="p-10 m-2 flex flex-col md:flex-row justify-center text-center bg-opacity-70 bg-gray-800 rounded-md">
 
                 <div className="bg-opacity-70 bg-gray-700 py-14 mx-4 my-2 flex-col h-full w-full rounded-md  flex justify-center items-center">
-                    <h1 className="font-serif text-2xl ">Blackholed</h1>
-                    <div className="hover:text-red-600 cursor-wait"> 
+                    <h1 className="font-serif text-3xl text-purple-400">Blackholed</h1>
+                    <div className="hover:text-red-600 cursor-wait text-2xl"> 
                         {new Date(data.cursus_users[1].blackholed_at).toLocaleDateString()}  
                     </div>
                 </div>
 
                 <div className="bg-opacity-70 bg-gray-700 py-14 mx-4 my-2 flex-col h-full w-full rounded-md  flex justify-center items-center">
-                    <h1 className="font-serif text-2xl">Available</h1>
-                    <div className="hover:text-purple-800 cursor-pointer">{data.location}</div>
+                    <h1 className="font-serif text-3xl  text-purple-400 ">Available</h1>
+                    <div className="hover:text-cyan-800 cursor-not-allowed text-2xl">{data.location}</div>
                 </div>
             </div>
 

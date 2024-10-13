@@ -11,7 +11,7 @@ function Footer() {
   const year = date.getFullYear();
 
   return (
-    <div className="bg-gray-900 text-white py-4">
+    <div className="fixed bottom-0 ml-20 left-0 w-full bg-gray-900 text-white py-4">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="px-10 text-center ">
           <h3>Developed by <span className="text-purple-400">afadlane</span></h3>

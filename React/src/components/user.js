@@ -14,16 +14,9 @@ import { FaRankingStar } from "react-icons/fa6";
 import Promo from './promo';
 
 function User() {
-    const [userData, setData] = useState(null);
     const [showPromo, setShowPromo] = useState(false); 
-    const data = JSON.parse(localStorage.getItem('Data'));
-
-    useEffect(() => {
-        if (data) {
-            setData(data);
-        }
-        document.body.classList.add('bg-black', 'text-white');
-    }, []);
+    const data = JSON.parse(localStorage.getItem('Data')) || null;
+    console.log(data);
 
     const handleOnClick = (event, isPromoLink) => {
         setShowPromo(false);
@@ -55,7 +48,7 @@ function User() {
 
     return (
         <>
-            {!userData ? (<h1>Loading...</h1>) : (
+            {!data ? (<h1>Loading...</h1>) : (
                 <div id="Home" className="min-h-screen flex flex-col bg-black">
                    
                     <nav className="ml-16 h-16 shadow-md bg-gray-900 text-gray">
@@ -107,9 +100,10 @@ function User() {
                         </div>
                     </div>
                     <Footer />
-                    <div className="fixed bottom-12 right-10 cursor-pointer bg-purple-700 text-lg font-bold rounded-full w-8 h-8 flex items-center justify-center">
-                        <FaGithub size={45} />
+                    <div className="fixed bottom-20 right-10 cursor-pointer bg-cyan-300 text-lg font-bold rounded-full w-10 h-10 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-cyan-500">
+                        <FaGithub size={40} /> 
                     </div>
+
                 </div>
             )}
         </>

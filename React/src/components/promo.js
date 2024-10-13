@@ -72,35 +72,34 @@ const Promo = ({status}) => {
     return null;
   return (
 <>
-  {loading ? ( 
-    <div className="flex flex-col items-center bg-gray-800 p-4">
-      <div className="w-full max-w-xs">
-        <select 
-          id="colors" 
-          value="Promo" 
-          onChange={handleClick} 
-          disabled={truck} 
-          className="block w-full p-2 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring focus:ring-purple-500 transition duration-300"
-        >
-          <option value="promo">Promos</option>
-          <option value="orange">Orange</option>
-          <option value="black">Black</option>
-          <option value="white">White</option>
-          <option value="green">Green</option>
-          <option value="blue">Blue</option>
-        </select>
+    {/* {loading ? ( 
+      <div className="flex flex-col items-center bg-gray-800 p-4">
+        <div className="w-full max-w-xs">
+          <select 
+            id="colors" 
+            value="Promo" 
+            onChange={handleClick} 
+            disabled={truck} 
+            className="block w-full p-2 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring focus:ring-purple-500 transition duration-300"
+          >
+            <option value="promo">Promos</option>
+            <option value="orange">Orange</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+          </select>
+        </div>
       </div>
-    </div>
-  ) : ( 
-    <div className="flex justify-center bg-gray-800 p-4">
-      <h1 className="text-3xl font-bold text-white">1337 <strong>Leet</strong></h1>  
-    </div>
-  )}
+    ) : ( 
+      <div className="flex justify-center bg-gray-800 p-4">
+        <h1 className="text-3xl font-bold text-white">1337 <strong>Leet</strong></h1>  
+      </div>
+    )} */}
 
-  <div className="flex flex-col justify-center items-center px-10 bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/5719efd0-02ee-4e51-8ecf-47a50313be1e/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_0.jpg')]">
-    {loaded ? (
-      usersData.length > 0 ? 
-      (
+  <div className="flex flex-col bg-cover bg-no-repeat justify-center items-center px-10 bg-[url('https://cdn.leonardo.ai/users/45b61a2e-8e49-4d02-9eff-77c96e424d23/generations/5719efd0-02ee-4e51-8ecf-47a50313be1e/Leonardo_Phoenix_Create_a_futuristic_hightech_background_for_a_0.jpg')]">
+  <div className="overflow-y-scroll max-h-[100vh] w-full hide-scrollbar">
+    {loaded ? ( usersData.length > 0 ?  (
         usersData.map((user, index) => (
           <div className="bg-opacity-30 flex  m-1 py-2 px-5 w-full  bg-gray-900 rounded-lg overflow-hidden shadow-sm transition-transform transform hover:scale-105 " key={user.id}>
             
@@ -125,11 +124,12 @@ const Promo = ({status}) => {
               {index + 1}
             </div>
           </div>
+          
         ))
       ) : (<></>)
     ) : (
       Array.from({ length: 30 }, (_, i) => (
-        <div key={i} className=" flex bg-gray-800 p-8 my-2 rounded-lg shadow-sm animate-pulse w-full">
+        <div key={i} className="h-32 flex bg-gray-800 p-8 my-2 rounded-lg shadow-sm animate-pulse w-full">
           <div className="w-20 h-20 bg-gray-700 rounded-full mr-4"></div>
           <div className="flex-1">
             <div className="h-3 w-20 bg-gray-600 rounded mb-1 my-2"></div>
@@ -139,7 +139,19 @@ const Promo = ({status}) => {
         </div>
       ))
     )}
+    </div>
   </div>
+  {/* Add this style block to your component */}
+  <style jsx>{`
+        .hide-scrollbar {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* Internet Explorer and Edge */
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none; /* Safari and Chrome */
+        }
+      `}</style>
 </>
   );
 }
