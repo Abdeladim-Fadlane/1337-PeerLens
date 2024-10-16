@@ -1,0 +1,60 @@
+services:
+
+  express:
+    build: Express
+    image: express
+    container_name: express
+    env_file:
+      - .env
+    volumes:
+      - ./Express/.:/app
+    restart: always
+
+  react:
+    build: React
+    image: react
+    container_name: react
+    volumes:
+      - ./React/.:/app
+    env_file:
+      - .env
+    restart: always
+
+  webserver:
+    build: WebServer
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./WebServer/.:/server
+    ports:
+      - "443:443"
+    restart: always
+
+  nestjs:
+    build: NestJs
+    image: nestjs
+    container_name: nestJs
+    volumes:
+      - ./NestJs/.:/app
+    env_file:
+      - .env
+    ports:
+      - "3002:3002"
+    restart: always
+
+
+
+  # redis:
+  #   image: redis
+  #   container_name: redis
+  #   restart: always
+      
+  # postgres:
+  #   image: postgres
+  #   container_name: postgres
+  #   volumes:
+  #     - ./Database:/var/lib/postgresql/data
+  #   env_file:
+  #     - .env
+  #   restart: always
+
