@@ -1,15 +1,5 @@
 services:
-
-  express:
-    build: Express
-    image: express
-    container_name: express
-    env_file:
-      - .env
-    volumes:
-      - ./Express/.:/app
-    restart: always
-
+  # backend:
   react:
     build: React
     image: react

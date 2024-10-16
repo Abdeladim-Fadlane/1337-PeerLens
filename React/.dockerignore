@@ -1,19 +1,13 @@
-# Ignore node_modules since we will install dependencies in the container
 node_modules
 
-# Ignore log files
 *.log
 
-# Ignore the build output directory if you are building it in the container
 build
 
-# Ignore environment files
 .env
 
-# Ignore Git files and directories
 .git
 .gitignore
 
-# Ignore Docker-related files
 .dockerignore
 Dockerfile

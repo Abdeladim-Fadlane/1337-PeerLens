@@ -2,7 +2,6 @@ import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { Controller, Get, Query, Res, HttpStatus } from '@nestjs/common';
 import axios from 'axios';
-import qs from 'qs';
 
 @Controller('auth')
 export class AuthController {
@@ -52,7 +51,7 @@ export class AuthController {
                 }
             });
             this.accessToken = tokenResponse.data.access_token;
-            return res.redirect('/auth/intra'); // Adjust as needed
+            return res.redirect('/auth/intra');
 
         } catch (error) {
             console.error('Error exchanging code for access token', error);
@@ -62,7 +61,7 @@ export class AuthController {
 
     @Get('user')
     async getUser(@Res() res: Response) {
-        if (!this.accessToken) { // Check for null or undefined
+        if (!this.accessToken) { 
             return res.status(HttpStatus.FORBIDDEN).send('Forbidden');
         }
         try {
@@ -71,7 +70,7 @@ export class AuthController {
                     'Authorization': `Bearer ${this.accessToken}`
                 }
             });
-            return res.json(userResponse.data); // Use json() for consistency
+            return res.json(userResponse.data); 
         } catch (error) {
             console.error('Error fetching user', error);
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send('Internal Server Error');
@@ -81,14 +80,19 @@ export class AuthController {
     @Get('users') 
     async getUsers(@Query() query: any, @Res() res: Response) {
         try {
-            const queryString = qs.stringify(query, { indices: true });
-            const response = await axios.get(`${this.baseUrl}?${queryString}`, {
+            const campusId = query.filter.campus_id;
+            const beginAt = query.filter?.begin_at;
+            const pageSize = query.page.size;
+            const pageNumber = query.page.number;
+            const sort = query.sort;
+            const apiUrl = `${this.baseUrl}?filter[campus_id]=${campusId}&filter[begin_at]=${beginAt}&page[size]=${pageSize}&page[number]=${pageNumber}&sort=${sort}`;
+            const response = await axios.get(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${this.accessToken}`,
                 },
             });
 
-            return res.json(response.data); // Return the data as JSON
+            return res.json(response.data); 
         } catch (error) {
             console.error('Failed to fetch users data:', error.message);
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send('Internal Server Error');

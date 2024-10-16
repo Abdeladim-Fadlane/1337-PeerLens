@@ -16,7 +16,6 @@ exports.AuthController = void 0;
 const auth_service_1 = require("./auth.service");
 const common_1 = require("@nestjs/common");
 const axios_1 = require("axios");
-const qs_1 = require("qs");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -80,8 +79,13 @@ let AuthController = class AuthController {
     }
     async getUsers(query, res) {
         try {
-            const queryString = qs_1.default.stringify(query, { indices: true });
-            const response = await axios_1.default.get(`${this.baseUrl}?${queryString}`, {
+            const campusId = query.filter.campus_id;
+            const beginAt = query.filter?.begin_at;
+            const pageSize = query.page.size;
+            const pageNumber = query.page.number;
+            const sort = query.sort;
+            const apiUrl = `${this.baseUrl}?filter[campus_id]=${campusId}&filter[begin_at]=${beginAt}&page[size]=${pageSize}&page[number]=${pageNumber}&sort=${sort}`;
+            const response = await axios_1.default.get(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${this.accessToken}`,
                 },
