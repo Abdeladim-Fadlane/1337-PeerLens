@@ -1,9 +1,13 @@
-import { ConfigService } from '@nestjs/config';
 export declare class AuthService {
-    private configService;
-    constructor(configService: ConfigService);
-    getClientId(): any;
-    getClientSecret(): any;
-    getRedirectUri(): any;
-    getState(): any;
+    private clientId;
+    private clientSecret;
+    private redirectUri;
+    private state;
+    private accessToken;
+    constructor();
+    getAuthorizationUrl(): string;
+    exchangeCodeForToken(code: string): Promise<string>;
+    fetchUser(): Promise<any>;
+    fetchUsers(query: any): Promise<any>;
+    getState(): string;
 }

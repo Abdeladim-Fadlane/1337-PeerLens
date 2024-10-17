@@ -28,10 +28,7 @@ services:
       - ./NestJs/.:/app
     env_file:
       - .env
-    ports:
-      - "3002:3002"
     restart: always
-
 
 
   # redis:
@@ -39,12 +36,12 @@ services:
   #   container_name: redis
   #   restart: always
       
-  # postgres:
-  #   image: postgres
-  #   container_name: postgres
-  #   volumes:
-  #     - ./Database:/var/lib/postgresql/data
-  #   env_file:
-  #     - .env
-  #   restart: always
+  postgres:
+    image: postgres
+    container_name: postgres
+    volumes:
+      - ./Database:/var/lib/postgresql/data
+    env_file:
+      - .env
+    restart: always
 

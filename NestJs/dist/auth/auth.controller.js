@@ -13,46 +13,23 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
-const auth_service_1 = require("./auth.service");
 const common_1 = require("@nestjs/common");
-const axios_1 = require("axios");
+const auth_service_1 = require("./auth.service");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
-        this.accessToken = null;
-        this.baseUrl = 'https://api.intra.42.fr/v2/cursus_users';
-        this.clientId = this.authService.getClientId();
-        this.clientSecret = this.authService.getClientSecret();
-        this.redirectUri = this.authService.getRedirectUri();
-        this.state = this.authService.getState();
     }
     redirect(res) {
-        const authorizeUrl = `https://api.intra.42.fr/oauth/authorize?${new URLSearchParams({
-            client_id: this.clientId,
-            redirect_uri: this.redirectUri,
-            response_type: 'code',
-            scope: 'public',
-            state: this.state,
-        }).toString()}`;
+        const authorizeUrl = this.authService.getAuthorizationUrl();
         return res.redirect(authorizeUrl);
     }
-    async callback(code, state, res) {
-        if (state !== this.state) {
+    async callback(query, res) {
+        const { code, state } = query;
+        if (state !== this.authService.getState()) {
             return res.status(common_1.HttpStatus.FORBIDDEN).send('Forbidden');
         }
         try {
-            const tokenResponse = await axios_1.default.post('https://api.intra.42.fr/oauth/token', new URLSearchParams({
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: this.redirectUri,
-                client_id: this.clientId,
-                client_secret: this.clientSecret
-            }), {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            });
-            this.accessToken = tokenResponse.data.access_token;
+            await this.authService.exchangeCodeForToken(code);
             return res.redirect('/auth/intra');
         }
         catch (error) {
@@ -61,16 +38,9 @@ let AuthController = class AuthController {
         }
     }
     async getUser(res) {
-        if (!this.accessToken) {
-            return res.status(common_1.HttpStatus.FORBIDDEN).send('Forbidden');
-        }
         try {
-            const userResponse = await axios_1.default.get('https://api.intra.42.fr/v2/me', {
-                headers: {
-                    'Authorization': `Bearer ${this.accessToken}`
-                }
-            });
-            return res.json(userResponse.data);
+            const userData = await this.authService.fetchUser();
+            return res.json(userData);
         }
         catch (error) {
             console.error('Error fetching user', error);
@@ -79,18 +49,8 @@ let AuthController = class AuthController {
     }
     async getUsers(query, res) {
         try {
-            const campusId = query.filter.campus_id;
-            const beginAt = query.filter?.begin_at;
-            const pageSize = query.page.size;
-            const pageNumber = query.page.number;
-            const sort = query.sort;
-            const apiUrl = `${this.baseUrl}?filter[campus_id]=${campusId}&filter[begin_at]=${beginAt}&page[size]=${pageSize}&page[number]=${pageNumber}&sort=${sort}`;
-            const response = await axios_1.default.get(apiUrl, {
-                headers: {
-                    Authorization: `Bearer ${this.accessToken}`,
-                },
-            });
-            return res.json(response.data);
+            const usersData = await this.authService.fetchUsers(query);
+            return res.json(usersData);
         }
         catch (error) {
             console.error('Failed to fetch users data:', error.message);
@@ -108,11 +68,10 @@ __decorate([
 ], AuthController.prototype, "redirect", null);
 __decorate([
     (0, common_1.Get)('callback'),
-    __param(0, (0, common_1.Query)('code')),
-    __param(1, (0, common_1.Query)('state')),
-    __param(2, (0, common_1.Res)()),
+    __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "callback", null);
 __decorate([

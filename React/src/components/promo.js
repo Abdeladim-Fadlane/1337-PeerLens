@@ -118,7 +118,7 @@ const Promo = ({status}) => {
                       </span>
                     </div>
                   </div>
-                  <div className="absolute top-2 right-2 bg-gray-800 text-white text-lg font-bold rounded-full w-8 h-8 flex items-center justify-center">
+                  <div className="absolute top-2 right-6 bg-gray-800 text-white text-lg font-bold rounded-full w-8 h-8 flex items-center justify-center">
                     {index + 1}
                   </div>
                 </div>

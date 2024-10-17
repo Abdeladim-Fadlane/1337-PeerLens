@@ -6,22 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_module_1 = require("./auth/auth.module");
-const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("./database/entities/user.entity");
-let AppModule = class AppModule {
+const user_entity_1 = require("./entities/user.entity");
+let DatabaseModule = class DatabaseModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.DatabaseModule = DatabaseModule;
+exports.DatabaseModule = DatabaseModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({
-                isGlobal: true,
-            }),
-            auth_module_1.AuthModule,
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'postgres',
                 host: 'postgres',
@@ -32,8 +26,7 @@ exports.AppModule = AppModule = __decorate([
                 entities: [user_entity_1.User],
                 synchronize: true,
             }),
-            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
         ],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], DatabaseModule);
+//# sourceMappingURL=database.module.js.map
