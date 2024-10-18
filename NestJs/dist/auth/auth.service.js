@@ -8,18 +8,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const axios_1 = require("axios");
 const user_entity_1 = require("../database/entities/user.entity");
+const typeorm_1 = require("typeorm");
+const typeorm_2 = require("@nestjs/typeorm");
 let AuthService = class AuthService {
-    constructor() {
+    constructor(userRepository) {
+        this.userRepository = userRepository;
         this.accessToken = null;
         this.clientId = process.env.CLIENT_ID;
         this.clientSecret = process.env.CLIENT_SECRET;
         this.redirectUri = process.env.REDIRECT_URI;
         this.state = process.env.STATE;
+    }
+    async saveUser(user) {
+        return this.userRepository.save(user);
+    }
+    async createUser(name, email) {
+        const existingUser = await this.userRepository.findOne({ where: { email } });
+        if (existingUser) {
+            return existingUser;
+        }
+        const user = this.userRepository.create({ name, email });
+        return this.userRepository.save(user);
     }
     getAuthorizationUrl() {
         const authorizeUrl = `https://api.intra.42.fr/oauth/authorize?${new URLSearchParams({
@@ -55,10 +72,24 @@ let AuthService = class AuthService {
                 'Authorization': `Bearer ${this.accessToken}`,
             },
         });
-        const user = new user_entity_1.User();
-        user.name = userResponse.data.login;
-        user.email = userResponse.data.email;
+        const userName = userResponse.data.login;
+        const userEmail = userResponse.data.email;
+        const user = await this.createUser(userName, userEmail);
         return userResponse.data;
+    }
+    async saveUserData(data, user) {
+        user.grade = data.grade;
+        user.level = data.level;
+        user.campus = data.campus;
+        user.image = data.image;
+        user.location = data.location;
+        user.available = data.available;
+        user.blackholed_at = data.blackholed_at;
+        user.begin_at = data.begin_at;
+        user.project = data.project;
+        user.skills = data.skills;
+        user.achievements = data.acheivements;
+        await this.userRepository.save(user);
     }
     async fetchUsers(query) {
         const campusId = query.filter?.campus_id;
@@ -72,6 +103,28 @@ let AuthService = class AuthService {
                 Authorization: `Bearer ${this.accessToken}`,
             },
         });
+        for (const userData of response.data) {
+            const userName = userData.user.login;
+            const userEmail = userData.user.email;
+            const user = await this.createUser(userName, userEmail);
+            const dataToSave = {
+                grade: userData.grade,
+                level: userData.level,
+                campus: userData.campus,
+                image: userData.user.image.link,
+                location: userData.user.location,
+                available: userData.user.available,
+                blackholed_at: userData.blackholed_at,
+                begin_at: userData.begin_at,
+                project: userData.project,
+                skills: userData.skills,
+                achievements: userData.achievements,
+                accessToken: this.accessToken,
+            };
+            console.log(response.data);
+            break;
+            await this.saveUserData(dataToSave, user);
+        }
         return response.data;
     }
     getState() {
@@ -81,6 +134,7 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
+    __metadata("design:paramtypes", [typeorm_1.Repository])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map
