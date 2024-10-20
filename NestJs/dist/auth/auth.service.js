@@ -63,18 +63,18 @@ let AuthService = class AuthService {
         this.accessToken = tokenResponse.data.access_token;
         return this.accessToken;
     }
-    async fetchUser() {
-        if (!this.accessToken) {
-            throw new Error('No access token');
-        }
+    async fetchUser(token) {
         const userResponse = await axios_1.default.get('https://api.intra.42.fr/v2/me', {
             headers: {
-                'Authorization': `Bearer ${this.accessToken}`,
+                'Authorization': `Bearer ${token}`,
             },
         });
         const userName = userResponse.data.login;
         const userEmail = userResponse.data.email;
         const user = await this.createUser(userName, userEmail);
+        this.accessToken = token;
+        user.accessToken = this.accessToken;
+        await this.saveUser(user);
         return userResponse.data;
     }
     async saveUserData(data, user) {
@@ -83,15 +83,14 @@ let AuthService = class AuthService {
         user.campus = data.campus;
         user.image = data.image;
         user.location = data.location;
-        user.available = data.available;
         user.blackholed_at = data.blackholed_at;
         user.begin_at = data.begin_at;
-        user.project = data.project;
         user.skills = data.skills;
-        user.achievements = data.acheivements;
-        await this.userRepository.save(user);
+        user.login = data.login;
+        user.displayName = data.displayName;
+        await this.saveUser(user);
     }
-    async fetchUsers(query) {
+    async fetchUsers(token, query) {
         const campusId = query.filter?.campus_id;
         const beginAt = query.filter?.begin_at;
         const pageSize = query.page?.size;
@@ -100,7 +99,7 @@ let AuthService = class AuthService {
         const apiUrl = `https://api.intra.42.fr/v2/cursus_users?filter[campus_id]=${campusId}&filter[begin_at]=${beginAt}&page[size]=${pageSize}&page[number]=${pageNumber}&sort=${sort}`;
         const response = await axios_1.default.get(apiUrl, {
             headers: {
-                Authorization: `Bearer ${this.accessToken}`,
+                Authorization: `Bearer ${token}`,
             },
         });
         for (const userData of response.data) {
@@ -110,25 +109,24 @@ let AuthService = class AuthService {
             const dataToSave = {
                 grade: userData.grade,
                 level: userData.level,
-                campus: userData.campus,
+                campus: userData.cursus.name,
                 image: userData.user.image.link,
-                location: userData.user.location,
-                available: userData.user.available,
+                location: userData.user.location ? userData.user.location : null,
                 blackholed_at: userData.blackholed_at,
                 begin_at: userData.begin_at,
-                project: userData.project,
                 skills: userData.skills,
-                achievements: userData.achievements,
-                accessToken: this.accessToken,
+                login: userData.user.login,
+                displayName: userData.user.displayname,
             };
-            console.log(response.data);
-            break;
             await this.saveUserData(dataToSave, user);
         }
         return response.data;
     }
     getState() {
         return this.state;
+    }
+    async searchUsers(login) {
+        return this.userRepository.findOne({ where: { login } });
     }
 };
 exports.AuthService = AuthService;

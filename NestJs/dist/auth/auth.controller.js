@@ -29,17 +29,18 @@ let AuthController = class AuthController {
             return res.status(common_1.HttpStatus.FORBIDDEN).send('Forbidden');
         }
         try {
-            await this.authService.exchangeCodeForToken(code);
-            return res.redirect('/auth/intra');
+            const token = await this.authService.exchangeCodeForToken(code);
+            return res.redirect('/auth/intra?token=' + token);
         }
         catch (error) {
             console.error('Error exchanging code for access token', error);
             return res.status(common_1.HttpStatus.INTERNAL_SERVER_ERROR).send('Internal Server Error');
         }
     }
-    async getUser(res) {
+    async getUser(query, res) {
+        const token = query.token;
         try {
-            const userData = await this.authService.fetchUser();
+            const userData = await this.authService.fetchUser(token);
             return res.json(userData);
         }
         catch (error) {
@@ -47,13 +48,30 @@ let AuthController = class AuthController {
             return res.status(common_1.HttpStatus.INTERNAL_SERVER_ERROR).send('Internal Server Error');
         }
     }
-    async getUsers(query, res) {
+    async getUsers(token, query, res) {
+        const accessToken = token.token;
+        if (!accessToken) {
+            return res.status(common_1.HttpStatus.UNAUTHORIZED).send('Unauthorized');
+        }
         try {
-            const usersData = await this.authService.fetchUsers(query);
+            const usersData = await this.authService.fetchUsers(accessToken, query);
             return res.json(usersData);
         }
         catch (error) {
             console.error('Failed to fetch users data:', error.message);
+            return res.status(common_1.HttpStatus.INTERNAL_SERVER_ERROR).send('Internal Server Error');
+        }
+    }
+    async searchUsers(query, res) {
+        try {
+            const name = query.name;
+            console.log('name:', name);
+            const usersData = await this.authService.searchUsers(name);
+            console.log('usersData:', usersData);
+            return res.json(usersData);
+        }
+        catch (error) {
+            console.error('Failed to search users:', error.message);
             return res.status(common_1.HttpStatus.INTERNAL_SERVER_ERROR).send('Internal Server Error');
         }
     }
@@ -75,20 +93,30 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "callback", null);
 __decorate([
-    (0, common_1.Get)('user'),
-    __param(0, (0, common_1.Res)()),
+    (0, common_1.Post)('user'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getUser", null);
 __decorate([
-    (0, common_1.Get)('users'),
+    (0, common_1.Post)('users'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Query)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getUsers", null);
+__decorate([
+    (0, common_1.Get)('search'),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], AuthController.prototype, "getUsers", null);
+], AuthController.prototype, "searchUsers", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

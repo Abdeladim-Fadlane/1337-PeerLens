@@ -14,6 +14,7 @@ import { FaRankingStar } from "react-icons/fa6";
 import Promo from './promo';
 
 const User = () => {
+    console.log(localStorage.getItem('accessToken'));
     const [showPromo, setShowPromo] = useState(false); 
     const data = JSON.parse(localStorage.getItem('Data')) || null;
     console.log(data);

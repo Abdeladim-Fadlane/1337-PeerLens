@@ -3,15 +3,14 @@ export declare class User {
     name: string;
     email: string;
     grade: string;
-    level: number;
+    level: string;
     campus: string;
     image: string;
     location: string;
-    available: string;
     blackholed_at: string;
     begin_at: string;
-    project: string;
+    displayName: string;
     skills: string;
-    achievements: string;
+    login: string;
     accessToken: string;
 }

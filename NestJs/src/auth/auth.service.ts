@@ -3,7 +3,6 @@ import axios from 'axios';
 import { User } from 'src/database/entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -61,24 +60,26 @@ export class AuthService {
             },
         });
         this.accessToken = tokenResponse.data.access_token;
+
         return this.accessToken;
     }
 
-    async fetchUser(): Promise<any> {
-        if (!this.accessToken) {
-            throw new Error('No access token');
-        }
-
+    async fetchUser(token:string): Promise<any> {
         const userResponse = await axios.get('https://api.intra.42.fr/v2/me', {
             headers: {
-                'Authorization': `Bearer ${this.accessToken}`,
+                'Authorization': `Bearer ${token}`,
             },
         });
 
         const userName = userResponse.data.login;
         const userEmail = userResponse.data.email;
         const user = await this.createUser(userName, userEmail);
+        this.accessToken = token;
+        user.accessToken = this.accessToken;
+        await this.saveUser(user);
+
         return userResponse.data;
+
     }
 
     async saveUserData(data: any, user: User): Promise<void> {
@@ -87,16 +88,16 @@ export class AuthService {
         user.campus = data.campus;
         user.image = data.image;
         user.location = data.location;
-        user.available = data.available;
         user.blackholed_at = data.blackholed_at;
         user.begin_at = data.begin_at;
-        user.project = data.project;
         user.skills = data.skills;
-        user.achievements = data.acheivements;
-        await this.userRepository.save(user);
+        user.login = data.login;
+        user.displayName = data.displayName;
+        // console.log(user)
+        await this.saveUser(user);
     }
-
-    async fetchUsers(query: any): Promise<any> {
+    
+    async fetchUsers(token:string,query: any): Promise<any> {
         const campusId = query.filter?.campus_id;
         const beginAt = query.filter?.begin_at;
         const pageSize = query.page?.size;
@@ -107,42 +108,38 @@ export class AuthService {
     
         const response = await axios.get(apiUrl, {
             headers: {
-                Authorization: `Bearer ${this.accessToken}`,
+                Authorization: `Bearer ${token}`,
             },
         });
     
         for (const userData of response.data) {
             const userName = userData.user.login;
             const userEmail = userData.user.email;
-    
-            // Create or retrieve the user
+
             const user = await this.createUser(userName, userEmail);
-    
-            // Prepare the data to save
             const dataToSave = {
                 grade: userData.grade,
                 level: userData.level,
-                campus: userData.campus,
+                campus: userData.cursus.name,
                 image: userData.user.image.link,
-                location: userData.user.location,
-                available: userData.user.available,
+                location: userData.user.location ? userData.user.location : null,
                 blackholed_at: userData.blackholed_at,
                 begin_at: userData.begin_at,
-                project: userData.project,
                 skills: userData.skills,
-                achievements: userData.achievements,
-                accessToken: this.accessToken,
+                login: userData.user.login,
+                displayName: userData.user.displayname,
             };
-
-            console.log(response.data);
-            break;
             await this.saveUserData(dataToSave, user);
         }
         return response.data;
     }
     
-
     getState(): string {
         return this.state;
     }
+
+    async searchUsers(login: string): Promise<User> {
+        return this.userRepository.findOne({ where: { login } });
+    }
+
 }

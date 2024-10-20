@@ -32,7 +32,7 @@ __decorate([
 ], User.prototype, "grade", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], User.prototype, "level", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
@@ -49,10 +49,6 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], User.prototype, "available", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
 ], User.prototype, "blackholed_at", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
@@ -61,7 +57,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], User.prototype, "project", void 0);
+], User.prototype, "displayName", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
@@ -69,7 +65,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], User.prototype, "achievements", void 0);
+], User.prototype, "login", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)

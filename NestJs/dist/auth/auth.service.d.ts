@@ -12,8 +12,9 @@ export declare class AuthService {
     createUser(name: string, email: string): Promise<User>;
     getAuthorizationUrl(): string;
     exchangeCodeForToken(code: string): Promise<string>;
-    fetchUser(): Promise<any>;
+    fetchUser(token: string): Promise<any>;
     saveUserData(data: any, user: User): Promise<void>;
-    fetchUsers(query: any): Promise<any>;
+    fetchUsers(token: string, query: any): Promise<any>;
     getState(): string;
+    searchUsers(login: string): Promise<User>;
 }

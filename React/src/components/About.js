@@ -60,7 +60,10 @@ const AboutSection = ({data}) => (
             <div className="m-2 w-full rounded-md flex justify-center items-center">
                 <img src={data.image.link} className="w-40 h-40 rounded-full border-2 border-gray-600 object-cover" alt="afadlane" />
             </div>
-            <div className="m-2 py-6 px-4 w-full0 rounded-md flex flex-col justify-center items-center">
+            <div className=" w-full rounded-md flex justify-center items-center">
+                <h1 className="text-xl font-bold text-purple-500">{data.displayname}</h1>
+            </div>
+            <div className="m-1 py-6 px-4 w-full0 rounded-md flex flex-col justify-center items-center">
                 <div className="flex flex-row items-center">
                     <FaUniversity size={25} className='text-purple-500 pr-1'/>  
                     <span className="text-gray-200">{data.campus[0].name}</span>

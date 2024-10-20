@@ -8,14 +8,14 @@ export class User {
     @Column()
     name: string;
 
-    @Column({ unique: true }) // Ensure emails are unique
+    @Column({ unique: true }) 
     email: string;
 
     @Column({ nullable: true })
-    grade: string; // Adjust type as necessary
+    grade: string;
 
     @Column({ nullable: true })
-    level: number;
+    level: string;
 
     @Column({ nullable: true })
     campus: string;
@@ -27,22 +27,19 @@ export class User {
     location: string;
 
     @Column({ nullable: true })
-    available: string;
-
-    @Column({ nullable: true })
     blackholed_at: string;
 
     @Column({ nullable: true })
     begin_at: string;
 
     @Column({ nullable: true })
-    project: string;
+    displayName: string;
 
     @Column({ nullable: true })
     skills: string;
 
     @Column({ nullable: true })
-    achievements: string; 
+    login: string; 
 
     @Column({ nullable: true })
     accessToken: string;

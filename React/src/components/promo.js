@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const baseUrl = 'https://legendary-garbanzo-x76ppvvv9q7hgv5-443.app.github.dev/auth/users/'
 const Promo = ({status}) => {
-  
+  const token = localStorage.getItem('accessToken');
   const [usersData, setusersData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,15 @@ const Promo = ({status}) => {
       }
 
       while (hasMoreData) {
-        const response = await fetch(`${baseUrl}?filter[campus_id]=21&filter[begin_at]=${beginAt}&page[size]=100&page[number]=${page}&sort=-level`);
+        const response = await fetch(`${baseUrl}?filter[campus_id]=21&filter[begin_at]=${beginAt}&page[size]=100&page[number]=${page}&sort=-level`
+          , {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: token })
+          }   
+        );
         const data = await response.json();
         if (data.length === 0)
         {
@@ -63,7 +71,7 @@ const Promo = ({status}) => {
         setusersData(usersList);
       }
     } catch (error) {
-      
+      console.error('Failed to fetch users data111', error); 
     }
   }
   if (status === false)

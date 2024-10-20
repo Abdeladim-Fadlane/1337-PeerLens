@@ -8,6 +8,7 @@ export declare class AuthController {
         code: string;
         state: string;
     }, res: Response): Promise<void | Response<any, Record<string, any>>>;
-    getUser(res: Response): Promise<Response<any, Record<string, any>>>;
-    getUsers(query: any, res: Response): Promise<Response<any, Record<string, any>>>;
+    getUser(query: any, res: Response): Promise<Response<any, Record<string, any>>>;
+    getUsers(token: any, query: any, res: Response): Promise<Response<any, Record<string, any>>>;
+    searchUsers(query: any, res: Response): Promise<Response<any, Record<string, any>>>;
 }
