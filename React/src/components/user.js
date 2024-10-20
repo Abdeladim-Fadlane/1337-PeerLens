@@ -10,20 +10,23 @@ import { FaUserAstronaut} from 'react-icons/fa';
 import Preloader from './Preloader';
 import { ProfileSection, ProjectsSection, SkillsSection } from './Sections';
 import ContactSection from './Contact';
+import ProfileSection2 from './ProfileSection2';
 import { FaRankingStar } from "react-icons/fa6";
 import Promo from './promo';
 
 const User = () => {
-    console.log(localStorage.getItem('accessToken'));
+    const [searchTerm, setSearchTerm] = useState('');
     const [showPromo, setShowPromo] = useState(false); 
     const data = JSON.parse(localStorage.getItem('Data')) || null;
-    console.log(data);
+    const [searchUser, setSearchUser] = useState('');
+    const [isReasy, setIsReady] = useState(false);
+    // console.log(data);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const timer = setTimeout(() => {
         setLoading(false);
         }
-        , 2000);
+        , 500);
         return () => clearTimeout(timer);
     }, []);
   
@@ -55,6 +58,36 @@ const User = () => {
         </a>
     );
 
+    const fetchUsers = async (login) => {
+        try {
+            const res = await fetch('https://legendary-garbanzo-x76ppvvv9q7hgv5-443.app.github.dev/auth/search/?login=' + login);
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.error('Failed to fetch users data', error);
+        }
+    };
+    
+    const handleOnChange = async () => {
+        setIsReady(false);
+        if (!searchTerm) {
+            return;
+        }
+        const users = await fetchUsers(searchTerm);
+        const mainClass = document.getElementsByClassName('main-class');
+        if (users === null) {
+            alert(searchTerm + ' not found');
+        }
+        else
+        {
+            for (let i = 0; i < mainClass.length; i++) {
+                mainClass[i].style.display = 'none';
+            }
+            setIsReady(true);
+            setSearchUser(users);
+        }
+    };
+
     return (
         <>
             {!data ? (<h1>Loading...</h1>) : (
@@ -62,8 +95,9 @@ const User = () => {
                    
                     <nav className="ml-16 h-16 shadow-md bg-gray-900 text-gray">
                         <div className="flex items-center justify-between px-4 py-2">
-                            <CiSearch size={40} className='text-gray-400 ml-4' />
-                            <input
+                            <CiSearch size={40} className='text-gray-400 ml-4 cursor-pointer' onClick={handleOnChange}  />
+                            <input 
+                                onChange={(event) => setSearchTerm(event.target.value)}
                                 type="text"
                                 placeholder="Search..."
                                 style={{ border: 'none' }}
@@ -88,8 +122,7 @@ const User = () => {
                                 <NavLink href="#contact" icon={<IoShareSocialOutline />} isPromoLink={false} />
                                 <a 
                                     href="#promo"
-                                    onClick={(event) => handlePromoClose()} // Close the promo
-                                    // aria-label={ariaLabel} 
+                                    onClick={(event) => handlePromoClose()} 
                                     className={" py-8 text-gray-400 rounded transition-colors duration-300 flex items-center justify-center hover:text-purple-400"}
                                 >
                                     <FaRankingStar size={30} />
@@ -98,6 +131,14 @@ const User = () => {
                             <NavLink href="/" icon={<BiLogOutCircle className='hover:text-red-600' />} ariaLabel="Logout" isPromoLink={false} />
                         </nav>
                         <div className="ml-20 flex-1 p-2 overflow-y-auto">
+                            {isReasy ? (
+                                <>
+                                <ProfileSection2 data={searchUser} />
+                                <ProjectsSection projects={data?.projects_users || []} />
+                                <SkillsSection skills={data?.cursus_users[1]?.skills || []} achievements={data.achievements} />
+                                <ContactSection data={data} /> 
+                                </>
+                            ) : (
                             <div className='main-class'>
                                 {loading ? (
                                     <Preloader />
@@ -109,9 +150,10 @@ const User = () => {
                                     <ContactSection data={data} /> 
                                     </>
                                 )}
-
-                            </div>
-                                <Promo status={showPromo}/>
+                                </div>
+                                
+                            )}
+                            <Promo status={showPromo}/>
                         </div>
                     </div>
                     <Footer />

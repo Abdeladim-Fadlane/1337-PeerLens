@@ -64,10 +64,8 @@ let AuthController = class AuthController {
     }
     async searchUsers(query, res) {
         try {
-            const name = query.name;
-            console.log('name:', name);
+            const name = query.login;
             const usersData = await this.authService.searchUsers(name);
-            console.log('usersData:', usersData);
             return res.json(usersData);
         }
         catch (error) {

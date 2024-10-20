@@ -60,12 +60,9 @@ export class AuthController {
     
     @Get('search')
     async searchUsers(@Query() query:any, @Res() res: Response) {
-        try {
-            // get the query from the request            
-            const name = query.name;
-            console.log('name:', name);
+        try {       
+            const name = query.login;
             const usersData = await this.authService.searchUsers(name);
-            console.log('usersData:', usersData);
             return res.json(usersData);
         } catch (error) {
             console.error('Failed to search users:', error.message);
