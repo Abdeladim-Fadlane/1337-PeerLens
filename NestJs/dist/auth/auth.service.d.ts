@@ -16,5 +16,5 @@ export declare class AuthService {
     saveUserData(data: any, user: User): Promise<void>;
     fetchUsers(token: string, query: any): Promise<any>;
     getState(): string;
-    searchUsers(login: string): Promise<User>;
+    searchUsers(login: string): Promise<any>;
 }

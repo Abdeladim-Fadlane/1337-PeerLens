@@ -78,16 +78,8 @@ let AuthService = class AuthService {
         return userResponse.data;
     }
     async saveUserData(data, user) {
-        user.grade = data.grade;
-        user.level = data.level;
-        user.campus = data.campus;
-        user.image = data.image;
-        user.location = data.location;
-        user.blackholed_at = data.blackholed_at;
-        user.begin_at = data.begin_at;
-        user.skills = data.skills;
+        user.user_id = data.user_id;
         user.login = data.login;
-        user.displayName = data.displayName;
         await this.saveUser(user);
     }
     async fetchUsers(token, query) {
@@ -107,16 +99,8 @@ let AuthService = class AuthService {
             const userEmail = userData.user.email;
             const user = await this.createUser(userName, userEmail);
             const dataToSave = {
-                grade: userData.grade,
-                level: userData.level,
-                campus: userData.cursus.name,
-                image: userData.user.image.link,
-                location: userData.user.location ? userData.user.location : null,
-                blackholed_at: userData.blackholed_at,
-                begin_at: userData.begin_at,
-                skills: userData.skills,
+                user_id: userData.user.id,
                 login: userData.user.login,
-                displayName: userData.user.displayname,
             };
             await this.saveUserData(dataToSave, user);
         }
@@ -126,7 +110,20 @@ let AuthService = class AuthService {
         return this.state;
     }
     async searchUsers(login) {
-        return this.userRepository.findOne({ where: { login } });
+        const user = this.userRepository.findOne({ where: { login } });
+        let id;
+        try {
+            id = (await user).user_id;
+        }
+        catch (error) {
+            return null;
+        }
+        const response = await axios_1.default.get(`https://api.intra.42.fr/v2/users/${id}`, {
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+            },
+        });
+        return response.data;
     }
 };
 exports.AuthService = AuthService;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { User } from 'src/database/entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -83,17 +84,8 @@ export class AuthService {
     }
 
     async saveUserData(data: any, user: User): Promise<void> {
-        user.grade = data.grade;
-        user.level = data.level;
-        user.campus = data.campus;
-        user.image = data.image;
-        user.location = data.location;
-        user.blackholed_at = data.blackholed_at;
-        user.begin_at = data.begin_at;
-        user.skills = data.skills;
+        user.user_id = data.user_id;
         user.login = data.login;
-        user.displayName = data.displayName;
-        // console.log(user)
         await this.saveUser(user);
     }
     
@@ -118,16 +110,8 @@ export class AuthService {
 
             const user = await this.createUser(userName, userEmail);
             const dataToSave = {
-                grade: userData.grade,
-                level: userData.level,
-                campus: userData.cursus.name,
-                image: userData.user.image.link,
-                location: userData.user.location ? userData.user.location : null,
-                blackholed_at: userData.blackholed_at,
-                begin_at: userData.begin_at,
-                skills: userData.skills,
+                user_id: userData.user.id,
                 login: userData.user.login,
-                displayName: userData.user.displayname,
             };
             await this.saveUserData(dataToSave, user);
         }
@@ -138,8 +122,21 @@ export class AuthService {
         return this.state;
     }
 
-    async searchUsers(login: string): Promise<User> {
-        return this.userRepository.findOne({ where: { login } });
+    async searchUsers(login: string): Promise<any> {
+        const user = this.userRepository.findOne({ where: { login } });
+        let id :any;
+        try {
+            id = (await user).user_id;
+        }
+        catch (error) {
+            return null;
+        }
+       
+        const response = await axios.get(`https://api.intra.42.fr/v2/users/${id}`, {
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`,
+            },
+        });
+        return response.data;
     }
-
 }

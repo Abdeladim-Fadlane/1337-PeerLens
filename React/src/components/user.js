@@ -10,25 +10,22 @@ import { FaUserAstronaut} from 'react-icons/fa';
 import Preloader from './Preloader';
 import { ProfileSection, ProjectsSection, SkillsSection } from './Sections';
 import ContactSection from './Contact';
-import ProfileSection2 from './ProfileSection2';
 import { FaRankingStar } from "react-icons/fa6";
 import Promo from './promo';
 
 const User = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showPromo, setShowPromo] = useState(false); 
-    const data = JSON.parse(localStorage.getItem('Data')) || null;
-    const [searchUser, setSearchUser] = useState('');
-    const [isReasy, setIsReady] = useState(false);
-    // console.log(data);
+    let data = JSON.parse(localStorage.getItem('Data')) || null;
+    const [userDatas, setUserDatas] = useState(data);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const timer = setTimeout(() => {
         setLoading(false);
         }
-        , 500);
+        , 800);
         return () => clearTimeout(timer);
-    }, []);
+    }, [userDatas]);
   
     const handleOnClick = (event, isPromoLink) => {
         setShowPromo(false);
@@ -69,22 +66,16 @@ const User = () => {
     };
     
     const handleOnChange = async () => {
-        setIsReady(false);
         if (!searchTerm) {
             return;
         }
         const users = await fetchUsers(searchTerm);
-        const mainClass = document.getElementsByClassName('main-class');
         if (users === null) {
             alert(searchTerm + ' not found');
         }
         else
         {
-            for (let i = 0; i < mainClass.length; i++) {
-                mainClass[i].style.display = 'none';
-            }
-            setIsReady(true);
-            setSearchUser(users);
+            setUserDatas(users);
         }
     };
 
@@ -131,28 +122,18 @@ const User = () => {
                             <NavLink href="/" icon={<BiLogOutCircle className='hover:text-red-600' />} ariaLabel="Logout" isPromoLink={false} />
                         </nav>
                         <div className="ml-20 flex-1 p-2 overflow-y-auto">
-                            {isReasy ? (
-                                <>
-                                <ProfileSection2 data={searchUser} />
-                                <ProjectsSection projects={data?.projects_users || []} />
-                                <SkillsSection skills={data?.cursus_users[1]?.skills || []} achievements={data.achievements} />
-                                <ContactSection data={data} /> 
-                                </>
-                            ) : (
                             <div className='main-class'>
                                 {loading ? (
                                     <Preloader />
                                 ) : ( 
                                     <>
-                                    <ProfileSection data={data} />
-                                    <ProjectsSection projects={data?.projects_users || []} />
-                                    <SkillsSection skills={data?.cursus_users[1]?.skills || []} achievements={data.achievements} />
-                                    <ContactSection data={data} /> 
+                                    <ProfileSection data={userDatas} />
+                                    <ProjectsSection projects={userDatas?.projects_users || []} />
+                                    <SkillsSection skills={userDatas?.cursus_users[1]?.skills || []} achievements={userDatas.achievements} />
+                                    <ContactSection data={userDatas} /> 
                                     </>
                                 )}
                                 </div>
-                                
-                            )}
                             <Promo status={showPromo}/>
                         </div>
                     </div>
