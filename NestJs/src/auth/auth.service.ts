@@ -15,8 +15,7 @@ export class AuthService {
 
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>,
-    ) {
+        private userRepository: Repository<User>,) {
         this.clientId = process.env.CLIENT_ID; 
         this.clientSecret = process.env.CLIENT_SECRET;
         this.redirectUri = process.env.REDIRECT_URI;

@@ -127,14 +127,18 @@ const User = () => {
                                     <Preloader />
                                 ) : ( 
                                     <>
-                                    <ProfileSection data={userDatas} />
-                                    <ProjectsSection projects={userDatas?.projects_users || []} />
-                                    <SkillsSection skills={userDatas?.cursus_users[1]?.skills || []} achievements={userDatas.achievements} />
-                                    <ContactSection data={userDatas} /> 
+                                        {userDatas ? (
+                                            <> <ProfileSection data={userDatas} />
+                                            <ProjectsSection projects={userDatas?.projects_users || []} />
+                                            <SkillsSection skills={userDatas?.cursus_users[1]?.skills || []} achievements={userDatas.achievements} />
+                                            <ContactSection data={userDatas} /> 
+                                            </>
+                                        ):(<h1>Not Found</h1>)}
                                     </>
                                 )}
                                 </div>
                             <Promo status={showPromo}/>
+                            
                         </div>
                     </div>
                     <Footer />
