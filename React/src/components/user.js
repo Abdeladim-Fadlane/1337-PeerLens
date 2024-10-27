@@ -19,6 +19,7 @@ const User = () => {
     let data = JSON.parse(localStorage.getItem('Data')) || null;
     const [userDatas, setUserDatas] = useState(data);
     const [loading, setLoading] = useState(true);
+    console.log(userDatas);
     useEffect(() => {
         const timer = setTimeout(() => {
         setLoading(false);

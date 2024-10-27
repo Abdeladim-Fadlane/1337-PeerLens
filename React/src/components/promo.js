@@ -38,7 +38,7 @@ const Promo = ({status}) => {
         beginAt = '2023-10-30T08:37:00.000Z';
       }
       else if (color === 'white') {
-        beginAt = '2024-07-22T08:37:00.000Z';
+        beginAt = '2024-10-21T09:13:00.000Z';
       }
       else if (color === 'green') {
         beginAt = '2021-08-02T08:37:00.000Z';
@@ -48,7 +48,7 @@ const Promo = ({status}) => {
       }
 
       while (hasMoreData) {
-        const response = await fetch(`${baseUrl}?filter[campus_id]=21&filter[begin_at]=${beginAt}&page[size]=100&page[number]=${page}&sort=-level`
+        const response = await fetch(`${baseUrl}?filter[campus_id]=21&filter[begin_at]=${beginAt}&page[size]=30&page[number]=${page}&sort=-level`
           , {
             method: 'POST',
             headers: {

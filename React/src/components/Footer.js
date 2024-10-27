@@ -7,8 +7,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 
 function Footer() {
-  const date = new Date();
-  const year = date.getFullYear();
+  const year = new Date().getFullYear();
 
   return (
     <div className="fixed bottom-0 ml-20 left-0 w-full bg-gray-900 text-white py-4">
