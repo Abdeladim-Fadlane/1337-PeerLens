@@ -8,7 +8,7 @@ const Intra = () => {
       localStorage.setItem('accessToken', parcetoken);
       const fetchData = async () => {
       try {
-          const response = await fetch('https://legendary-garbanzo-x76ppvvv9q7hgv5-443.app.github.dev/auth/user/',
+          const response = await fetch('https://garb-anzo.tech/auth/user/',
             {
                 method: 'POST',
                 headers: {

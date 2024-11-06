@@ -1,16 +1,24 @@
 FROM debian:11
 
-RUN apt -y update && apt -y upgrade
-RUN apt install -y nginx 
-RUN apt install -y openssl 
+# Install necessary packages
+RUN apt update && apt install -y \
+    nginx \
+    certbot \
+    python3-certbot-nginx \
+    openssl \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /etc/nginx/ssl 
+# Create a directory for SSL certificates
+RUN mkdir -p /etc/nginx/ssl
 
-RUN openssl req -x509 -nodes \
-    -keyout /etc/nginx/ssl/private-key.key \
-    -out /etc/nginx/ssl/afadlane.crt \
-     -subj "/CN=pingpong"
+# Expose ports 80 and 443
 
-COPY nginx.conf /etc/nginx/sites-enabled/default.conf 
+# Copy Nginx configuration
+COPY nginx.conf /etc/nginx/sites-enabled/default.conf
 
-CMD [ "nginx", "-g", "daemon off;" ]
+# Add entrypoint script to run Certbot and Nginx
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Run entrypoint script to generate certificates and start Nginx
+CMD ["/entrypoint.sh"]

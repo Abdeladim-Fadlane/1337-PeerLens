@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const baseUrl = 'https://legendary-garbanzo-x76ppvvv9q7hgv5-443.app.github.dev/auth/users/'
+const baseUrl = 'https://garb-anzo.tech/auth/users/'
 const Promo = ({status}) => {
   const token = localStorage.getItem('accessToken');
   const [usersData, setusersData] = useState([]);

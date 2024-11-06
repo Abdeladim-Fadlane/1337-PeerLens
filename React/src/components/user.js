@@ -58,7 +58,7 @@ const User = () => {
 
     const fetchUsers = async (login) => {
         try {
-            const res = await fetch('https://legendary-garbanzo-x76ppvvv9q7hgv5-443.app.github.dev/auth/search/?login=' + login);
+            const res = await fetch('https://garb-anzo.tech/auth/search/?login=' + login);
             const data = await res.json();
             return data;
         } catch (error) {
